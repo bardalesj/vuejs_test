@@ -7,7 +7,7 @@
                   <br>
                   <br>
                   <div class="row">
-                    <button class="btn btn-sm">Inicio
+                    <button class="btn btn-sm">Pets
                     <router-link class="brand-link" :to="{name : 'Layout'}">
 
                     <i class="material-icons">pets</i></router-link></button>
