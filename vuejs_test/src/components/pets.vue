@@ -1,10 +1,10 @@
 <template>
-  <div class="container">
-    <h3>All Pets</h3>
+  <div id="content" class="container">
+    <h3>Pets</h3>
     <div v-if="message" class="alert alert-success">
       {{message}}
     </div>
-    <button class="btn btn-light" v-on:click="addPetClicked()"><i class="material-icons">add</i></button>
+    
     <div class="container">
       <table class="table">
         <thead>
@@ -25,14 +25,14 @@
             <td>{{pet.id}}</td>
             <td>{{pet.name}}</td>
             <td>{{pet.kind}}</td>
-            <td>{{pet.color}}</td>
+            <td><span class="dot" :style="{backgroundColor : pet.color}"></span></td>
             <td>{{pet.breed}}</td>
             <td>{{pet.gender}}</td>
             <td>{{pet.age}}</td>
-            <td>{{pet.created_at}}</td>
+            <td>{{toJSONLocal(pet.created_at)}}</td>
             <td>
-              <button class="btn btn-light" v-on:click="updatePetClicked(pet.id)"><i class="material-icons">edit</i></button>
-              <button class="btn btn-light" v-on:click="deletePetClicked(pet.id)"><i class="material-icons">delete</i></button>
+              <button class="btn btn-light btn-sm" v-on:click="updatePetClicked(pet.id)"><i class="material-icons">edit</i></button>
+              <button class="btn btn-light btn-sm" v-on:click="deletePetClicked(pet.id)"><i class="material-icons">delete</i></button>
             </td>
           </tr>
         </tbody>
@@ -41,7 +41,6 @@
   </div>
 
 </template>
-
 <script>
 import PetService from '../services/PetService';
 export default {
@@ -73,7 +72,11 @@ export default {
           this.refreshPets()
         }).catch(error => console.log(error))
       }
-    }
+    },
+   toJSONLocal (date) {
+  	var local = new Date(date);
+  	return local.toISOString().slice(0, 10);
+  },
   },
   mounted(){
     this.refreshPets()

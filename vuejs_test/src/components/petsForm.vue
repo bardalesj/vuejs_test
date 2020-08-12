@@ -1,11 +1,11 @@
 <template>
-  <div class="container">
+  <div id="content" class="container">
     <h1>Pet Details</h1>
+    <div v-if="message" class="alert alert-success">
+      {{message}}
+    </div>
+    <div class="container">
     <form @submit.prevent="submit">
-      <fieldset class="form-group">
-        <label>ID:</label>
-        <input type="text" class="form-control" v-model="id" readonly>
-      </fieldset>
         <fieldset class="form-group">
           <label>Name:</label>
           <input type="text" class="form-control" v-model="name" required>
@@ -44,6 +44,7 @@
         <button class="btn btn-success" type="submit">Save</button>
       </form>
     </div>
+  </div>
 </template>
 
 <script>
@@ -58,6 +59,7 @@ export default {
       age: "",
       gender: "",
       color : "",
+      message: null,
     }
   },
   computed: {
@@ -86,7 +88,11 @@ export default {
           age: this.age,
           gender: this.gender,
           color: this.color,
-        }).catch(error => {
+        }).then(response => {
+          this.message = `Pet added Successful`;
+          this.$router.push({name : 'Pets'})
+        })
+        .catch(error => {
             console.log(error.message);
           })
       }else{
@@ -97,7 +103,11 @@ export default {
           age: this.age,
           gender: this.gender,
           color: this.color,
-        }).catch(error => {
+        }).then(response => {
+          this.message = `Pet updated Successful`;
+          this.$router.push({name : 'Pets'})
+        })
+        .catch(error => {
             console.log(error.message);
           })
 
