@@ -1,6 +1,9 @@
 <template>
   <div class="container">
     <h3>All Pets</h3>
+    <div v-if="message" class="alert alert-success">
+      {{message}}
+    </div>
     <div class="container">
       <table class="table">
         <thead>
@@ -17,7 +20,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="pet in pets">
+          <tr v-for="pet in pets" :key="pet.id">
             <td>{{pet.id}}</td>
             <td>{{pet.name}}</td>
             <td>{{pet.kind}}</td>
@@ -25,10 +28,10 @@
             <td>{{pet.breed}}</td>
             <td>{{pet.gender}}</td>
             <td>{{pet.age}}</td>
-            <td>{{pet.created_at.toString()}}</td>
+            <td>{{pet.created_at}}</td>
             <td>
-              <i class="material-icons">edit</i>
-              <i class="material-icons">delete</i>
+              <button class="btn btn-light" v-on:click="updatePetClicked(pet.id)"><i class="material-icons">edit</i></button>
+              <button class="btn btn-light" v-on:click="deletePetClicked(pet.id)"><i class="material-icons">delete</i></button>
             </td>
           </tr>
         </tbody>
@@ -44,6 +47,7 @@ export default {
   data(){
     return {
       pets : [],
+      message: null,
     };
   },
   methods:{
@@ -53,6 +57,16 @@ export default {
           this.pets = response.data
         }).catch(error => console.log(error))
     },
+    updatePetClicked(id){
+      this.$router.push(`/pets/${id}`);
+    },
+    deletePetClicked(id){
+      PetService.deletePet(id)
+        .then(response=>{
+          this.message = `Delete of pet ${id} Successful`;
+          this.refreshPets()
+        }).catch(error => console.log(error))
+    }
   },
   mounted(){
     this.refreshPets()
