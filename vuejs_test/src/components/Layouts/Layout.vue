@@ -38,12 +38,13 @@
 <script>
 import Aside from '@/components/Layouts/Modules/Aside.vue'
 import Header from '@/components/Layouts/Modules/Header.vue'
-
+import Footer from '@/components/Layouts/Modules/Footer.vue'
 export default {
   name: "app",
   components:{
         Aside,
         Header,
+        Footer
     }
 }
 </script>

@@ -1,10 +1,11 @@
 <template>
   <div class="container">
     <h1>Pet Details</h1>
-    <form @submit="submit">
-      <div v-if="errors.length">
-        <div class="alert alert-warning" v-bind:key="index" v-for="(error, index) in errors"></div>
-      </div>
+    <form @submit.prevent="submit">
+      <fieldset class="form-group">
+        <label>ID:</label>
+        <input type="text" class="form-control" v-model="id" readonly>
+      </fieldset>
         <fieldset class="form-group">
           <label>Name:</label>
           <input type="text" class="form-control" v-model="name" required>
@@ -57,7 +58,6 @@ export default {
       age: "",
       gender: "",
       color : "",
-      errors: [],
     }
   },
   computed: {
@@ -79,7 +79,16 @@ export default {
     },
     submit(){
       if(this.id == -1){
-
+        PetService.addPet(this.id,{
+          name : this.name,
+          kind: this.kind,
+          breed: this.breed,
+          age: this.age,
+          gender: this.gender,
+          color: this.color,
+        }).catch(error => {
+            console.log(error.message);
+          })
       }else{
         PetService.updatePet(this.id,{
           name : this.name,
@@ -88,14 +97,17 @@ export default {
           age: this.age,
           gender: this.gender,
           color: this.color,
-        }).then(response => {
-          this.$router.push({name: 'Layout'})
-        });
+        }).catch(error => {
+            console.log(error.message);
+          })
+
       }
     },
   },
   mounted() {
-    this.refreshPetDetails();
+    if(this.id != -1){
+      this.refreshPetDetails();
+    }
   }
 };
 </script>

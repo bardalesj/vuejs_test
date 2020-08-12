@@ -11,8 +11,11 @@ class PetService{
 	retrievePet(id) {
     return axios.get(`${url}/${id}`,{params});
 }
+	addPet(id, pet) {
+			return axios.post(`${url}`,pet,{params});
+	}
 	updatePet(id, pet) {
-      return axios.put(`${url}/${id}`, pet,{params});
+      return axios.put(`${url}/${id}`,pet,{params});
   }
 	deletePet(id){
 		return axios.delete(`${url}/${id}?token=${token}`);

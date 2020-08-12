@@ -4,6 +4,7 @@
     <div v-if="message" class="alert alert-success">
       {{message}}
     </div>
+    <button class="btn btn-light" v-on:click="addPetClicked()"><i class="material-icons">add</i></button>
     <div class="container">
       <table class="table">
         <thead>
@@ -57,6 +58,9 @@ export default {
         .then(response => {
           this.pets = response.data
         }).catch(error => console.log(error))
+    },
+    addPetClicked() {
+      this.$router.push(`/home/pets/-1`);
     },
     updatePetClicked(id){
       this.$router.push(`/home/pets/${id}`);
