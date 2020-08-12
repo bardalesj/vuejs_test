@@ -38,6 +38,7 @@
       </table>
     </div>
   </div>
+
 </template>
 
 <script>
@@ -58,14 +59,16 @@ export default {
         }).catch(error => console.log(error))
     },
     updatePetClicked(id){
-      this.$router.push(`/pets/${id}`);
+      this.$router.push(`/home/pets/${id}`);
     },
     deletePetClicked(id){
-      PetService.deletePet(id)
+      if(confirm('Are you sure to delete the record?')==true){
+        PetService.deletePet(id)
         .then(response=>{
           this.message = `Delete of pet ${id} Successful`;
           this.refreshPets()
         }).catch(error => console.log(error))
+      }
     }
   },
   mounted(){
